@@ -1,0 +1,19 @@
+{
+  "name": "casa_facil",
+  "version": "1.0.0",
+  "description": "Trabajo sistemas",
+  "main": "app.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "clase sistemas",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "pg": "^8.16.0",
+    "skeleton": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
