@@ -1,23 +1,17 @@
 import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+//import gastoRoutes from './app/routes/gastoRoutes.mjs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const app = express();
 const port = process.env.PORT || 3000;
+const app = express();
 
-// Middleware
+// Middlewares
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'cliente')));
+app.use(express.static('cliente'));  // Sirve archivos estáticos como tu frontend
 
 // Rutas
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'cliente', 'home.html'));
-});
+//app.use('/', gastoRoutes);  // Usamos las rutas definidas para gastos
 
 // Iniciar el servidor
 app.listen(port, () => {
-    console.log(`Servidor corriendo en http://localhost:${port}`);
-}); 
+    console.log(`Servidor escuchando en el puerto ${port}`);
+});
