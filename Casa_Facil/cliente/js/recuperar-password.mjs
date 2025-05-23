@@ -5,12 +5,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const step2 = document.getElementById('step2');
     const sendCodeButton = document.getElementById('sendCode');
 
+    // Añadir función para validar el correo electrónico
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
     // Manejar el envío del código
     sendCodeButton.addEventListener('click', async () => {
         const email = document.getElementById('email').value;
 
         if (!email) {
             messageElement.textContent = 'Por favor, ingresa tu correo electrónico';
+            return;
+        }
+
+        if (!isValidEmail(email)) {
+            messageElement.textContent = 'Por favor, ingresa un correo electrónico válido';
             return;
         }
 
