@@ -17,7 +17,6 @@
             <div class="col-md-3 col-lg-2 sidebar p-3">
                 <h2 class="navbar-brand mb-4">Dashboard</h2>
                 <div class="nav flex-column">
-                    <a class="nav-link text-white" href="../html/home.html"><i class="bi bi-house-door"></i> Home</a>
                     <a class="nav-link text-white active" href="#panel-general"><i class="bi bi-speedometer2"></i> Panel
                         General</a>
                     <a class="nav-link text-white" href="#usuarios"><i class="bi bi-people"></i> Usuarios</a>
@@ -28,7 +27,12 @@
 
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 main-content">
-                <h1 class="mb-4">Casa Fácil</h1>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>Casa Fácil</h1>
+                    <a href="../html/home.html" class="btn btn-outline-primary">
+                        <i class="bi bi-house-door"></i> Volver al Home
+                    </a>
+                </div>
 
                 <!-- Panel General -->
                 <div id="panel-general" class="content-section">
@@ -73,10 +77,17 @@
 
                 <!-- Usuarios -->
                 <div id="usuarios" class="content-section" style="display: none;">
-                    <h1>Gestión de Usuarios</h1>
-                    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                        <i class="bi bi-person-plus"></i> Agregar Usuario
-                    </button>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1>Gestión de Usuarios</h1>
+                        <div>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                                <i class="bi bi-person-plus"></i> Agregar Usuario
+                            </button>
+                            <button class="btn btn-primary" onclick="loadUsers()">
+                                <i class="bi bi-arrow-clockwise"></i> Actualizar
+                            </button>
+                        </div>
+                    </div>
                     <div class="table-container">
                         <table class="table table-hover" id="usersTable">
                             <thead>
@@ -102,10 +113,17 @@
 
                 <!-- Propiedades -->
                 <div id="propiedades" class="content-section" style="display: none;">
-                    <h1>Gestión de Propiedades</h1>
-                    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addPropertyModal">
-                        <i class="bi bi-plus-circle"></i> Agregar Propiedad
-                    </button>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1>Gestión de Propiedades</h1>
+                        <div>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPropertyModal">
+                                <i class="bi bi-plus-circle"></i> Agregar Propiedad
+                            </button>
+                            <button class="btn btn-primary" onclick="loadProperties()">
+                                <i class="bi bi-arrow-clockwise"></i> Actualizar
+                            </button>
+                        </div>
+                    </div>
                     <div class="table-container">
                         <table class="table table-hover" id="propertiesTable">
                             <thead>
@@ -130,10 +148,17 @@
 
                 <!-- Planes -->
                 <div id="planes" class="content-section" style="display: none;">
-                    <h1>Gestión de Planes</h1>
-                    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addPlanModal">
-                        <i class="bi bi-plus-circle"></i> Agregar Plan
-                    </button>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1>Gestión de Planes</h1>
+                        <div>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPlanModal">
+                                <i class="bi bi-plus-circle"></i> Agregar Plan
+                            </button>
+                            <button class="btn btn-primary" onclick="loadPlans()">
+                                <i class="bi bi-arrow-clockwise"></i> Actualizar
+                            </button>
+                        </div>
+                    </div>
                     <div class="table-container">
                         <table class="table table-hover" id="plansTable">
                             <thead>
