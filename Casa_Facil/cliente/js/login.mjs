@@ -2,44 +2,59 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const messageElement = document.getElementById('message');
 
+    // Lista de usuarios válidos
+    const usuariosValidos = [
+        { username: 'juan@example.com', password: '123456', nombre: 'Juan Pérez', telefono: '+56 912345678', correo: 'juan@example.com' },
+        { username: 'maria@example.com', password: 'abc123', nombre: 'María González', telefono: '+56 987654321', correo: 'maria@example.com' },
+        { username: 'admin@casafacil.com', password: 'admin123', nombre: 'Administrador', telefono: '+56 955555555', correo: 'admin@casafacil.com' }
+    ];
+
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const username = document.getElementById('username').value;
+        const username = document.getElementById('username').value.toLowerCase();
         const password = document.getElementById('password').value;
 
-        try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            });
+        // Buscar el usuario en la lista de usuarios válidos
+        const usuarioEncontrado = usuariosValidos.find(
+            user => user.username === username && user.password === password
+        );
 
-            const data = await response.json();
+        if (usuarioEncontrado) {
+            // Guardar los datos del usuario en localStorage
+            localStorage.setItem('usuarioActual', JSON.stringify({
+                nombre: usuarioEncontrado.nombre,
+                telefono: usuarioEncontrado.telefono,
+                correo: usuarioEncontrado.correo
+            }));
 
-            if (response.ok) {
-                messageElement.textContent = 'Inicio de sesión exitoso';
-                messageElement.style.color = 'green';
-                // Redirigir al dashboard después de un inicio de sesión exitoso
-                setTimeout(() => {
-                    window.location.href = 'dashbord.html';
-                }, 1500);
-            } else {
-                messageElement.textContent = data.error || 'Error en el inicio de sesión';
-                messageElement.style.color = 'red';
-            }
-        } catch (error) {
-            messageElement.textContent = 'Error al conectar con el servidor';
+            messageElement.textContent = 'Inicio de sesión exitoso';
+            messageElement.style.color = 'green';
+
+            // Redirigir a la vista de usuario después de un breve delay
+            setTimeout(() => {
+                window.location.href = 'vistaUsuario.html';
+            }, 1000);
+        } else {
+            messageElement.textContent = 'Usuario o contraseña incorrectos';
             messageElement.style.color = 'red';
+            // Limpiar el campo de contraseña
+            document.getElementById('password').value = '';
         }
     });
 
     // Manejar el botón de salir
     const btnSalir = document.querySelector('.btn-salir');
-    btnSalir.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'home.html';
-    });
+    if (btnSalir) {
+        btnSalir.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'home.html';
+        });
+    }
 });
+var objt = {
+    usuario: 'Juan',
+    contraseña: '123456'
+};
+
+console.log(objeto);

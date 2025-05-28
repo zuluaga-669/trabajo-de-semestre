@@ -1,4 +1,4 @@
-import { pool } from '../config/database.js';
+import { pool } from '../db/pool.mjs';
 
 class Casa {
     static async getAll() {
@@ -32,7 +32,7 @@ class Casa {
         }
     }
 
-    static async create(casaData) {
+    static async createCasas(casaData) {
         try {
             const {
                 usuario_id,

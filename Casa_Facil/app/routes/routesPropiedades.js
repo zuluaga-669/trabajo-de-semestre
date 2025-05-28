@@ -6,7 +6,7 @@ import {
     updateCasa,
     deleteCasa,
     getCasasByUserId
-} from '../controllers/casaController.js';
+} from '../controllers/controllerPropiedades.js';
 
 const router = express.Router();
 
