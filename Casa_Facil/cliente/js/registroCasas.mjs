@@ -7,6 +7,15 @@ const preview = document.getElementById("previewImagenes");
 
 let imagenesSeleccionadas = [];
 
+// Verificar autenticación al cargar la página
+window.onload = function () {
+    const usuarioActual = localStorage.getItem('usuarioActual');
+    if (!usuarioActual) {
+        window.location.href = 'login.html';
+        return;
+    }
+};
+
 tipoSelect.addEventListener("change", () => {
     if (tipoSelect.value === "Otro") {
         otroTipoContainer.classList.remove("d-none");
@@ -52,7 +61,7 @@ function actualizarVistaPrevia() {
     });
 }
 
-formulario.addEventListener("submit", function (event) {
+formulario.addEventListener("submit", async function (event) {
     event.preventDefault();
     event.stopPropagation();
 
@@ -66,24 +75,69 @@ formulario.addEventListener("submit", function (event) {
         tipo = otroTipoInput.value.trim() || "Otro";
     }
 
+    // Obtener el usuario actual del localStorage
+    const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual'));
+    if (!usuarioActual) {
+        alert('Debe iniciar sesión para registrar una propiedad');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Preparar los datos para enviar al servidor
+    const formData = new FormData();
+    imagenesSeleccionadas.forEach((imagen, index) => {
+        formData.append('imagenes', imagen);
+    });
+
     const datos = {
-        tipoVivienda: tipo,
-        baños: parseInt(document.getElementById("baños").value),
-        cuartos: parseInt(document.getElementById("cuartos").value),
-        mascotas: document.getElementById("mascotas").value === "Sí",
+        titulo: document.getElementById("titulo").value,
+        descripcion: document.getElementById("observaciones").value,
+        precio: parseFloat(document.getElementById("precio").value),
         ubicacion: document.getElementById("ubicacion").value,
-        observaciones: document.getElementById("observaciones").value,
-        personasPermitidas: parseInt(document.getElementById("personas").value),
-        cantidadImagenes: imagenesSeleccionadas.length
+        tipo: tipo,
+        habitaciones: parseInt(document.getElementById("cuartos").value),
+        banos: parseInt(document.getElementById("baños").value),
+        usuario_id: usuarioActual.id,
+        mascotas: document.getElementById("mascotas").value === "Sí",
+        personasPermitidas: parseInt(document.getElementById("personas").value)
     };
 
-    document.getElementById("datosSalida").textContent = JSON.stringify(datos, null, 2);
-    document.getElementById("resultado").style.display = "block";
-    formulario.classList.remove('was-validated');
+    try {
+        // Primero subir las imágenes
+        const responseImagenes = await fetch('/api/upload-images', {
+            method: 'POST',
+            body: formData
+        });
+        const imagenesData = await responseImagenes.json();
+
+        // Agregar las URLs de las imágenes a los datos
+        datos.imagen_url = imagenesData.urls.join(',');
+
+        // Luego crear la propiedad
+        const response = await fetch('/api/casas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+        });
+
+        if (response.ok) {
+            alert('Propiedad registrada exitosamente');
+            window.location.href = 'vistaUsuario.html';
+        } else {
+            const error = await response.json();
+            alert('Error al registrar la propiedad: ' + error.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al registrar la propiedad');
+    }
 });
 
 formulario.addEventListener("reset", () => {
     imagenesSeleccionadas = [];
     preview.innerHTML = "";
     document.getElementById("resultado").style.display = "none";
+    formulario.classList.remove('was-validated');
 });

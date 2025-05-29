@@ -14,7 +14,7 @@
         <button class="sidebar-button home-button" onclick="window.location.href='home.html'">
             <i class="fas fa-home"></i> Inicio
         </button>
-        <button class="sidebar-button upload-button" onclick="window.location.href='subirPropiedad.html'">
+        <button class="sidebar-button upload-button" onclick="window.location.href='registroCasas.html'">
             <i class="fas fa-plus"></i> Subir Propiedad
         </button>
         <button class="sidebar-button logout-button" onclick="cerrarSesion()">
@@ -40,94 +40,21 @@
             <div class="profile-info">
                 <div class="info-group">
                     <div class="info-label">Nombre</div>
-                    <div class="info-value" id="nombre-usuario">Nombre del Usuario</div>
+                    <div class="info-value" id="nombre-usuario">Cargando...</div>
                 </div>
                 <div class="info-group">
                     <div class="info-label">Teléfono</div>
-                    <div class="info-value" id="telefono-usuario">+XX XXXXXXXXX</div>
+                    <div class="info-value" id="telefono-usuario">Cargando...</div>
                 </div>
                 <div class="info-group">
                     <div class="info-label">Correo Electrónico</div>
-                    <div class="info-value" id="correo-usuario">usuario@ejemplo.com</div>
+                    <div class="info-value" id="correo-usuario">Cargando...</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // Función para cerrar sesión
-        function cerrarSesion() {
-            // Aquí irá la lógica para cerrar sesión
-            window.location.href = 'login.html';
-        }
-
-        // Función para cargar las propiedades
-        function cargarPropiedades() {
-            const propiedades = [
-                {
-                    imagen: '../img/casa-ejemplo1.jpg',
-                    titulo: 'Casa Moderna en el Centro',
-                    precio: '$250,000',
-                    ubicacion: 'Centro de la Ciudad',
-                    tipo: 'Venta'
-                },
-                {
-                    imagen: '../img/casa-ejemplo2.jpg',
-                    titulo: 'Apartamento con Vista al Mar',
-                    precio: '$1,500/mes',
-                    ubicacion: 'Zona Costera',
-                    tipo: 'Alquiler'
-                },
-                {
-                    imagen: '../img/casa-ejemplo3.jpg',
-                    titulo: 'Casa Familiar con Jardín',
-                    precio: '$180,000',
-                    ubicacion: 'Zona Residencial',
-                    tipo: 'Venta'
-                }
-            ];
-
-            const container = document.getElementById('propiedades-container');
-
-            propiedades.forEach(propiedad => {
-                const propertyCard = `
-                    <div class="property-card">
-                        <img src="${propiedad.imagen}" alt="${propiedad.titulo}" class="property-image">
-                        <div class="property-info">
-                            <div>
-                                <h3 class="property-title">${propiedad.titulo}</h3>
-                                <span class="property-type">${propiedad.tipo}</span>
-                            </div>
-                            <div class="property-details">
-                                <span class="property-price">${propiedad.precio}</span>
-                                <span class="property-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    ${propiedad.ubicacion}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += propertyCard;
-            });
-        }
-
-        window.onload = function () {
-            // Cargar datos del usuario
-            const userData = {
-                nombre: "Nombre del Usuario",
-                telefono: "+XX XXXXXXXXX",
-                correo: "usuario@ejemplo.com"
-            };
-
-            document.getElementById('nombre-usuario').textContent = userData.nombre;
-            document.getElementById('telefono-usuario').textContent = userData.telefono;
-            document.getElementById('correo-usuario').textContent = userData.correo;
-
-            // Cargar las propiedades
-            cargarPropiedades();
-        };
-    </script>
+    <script src="../js/vistaUsuarios.mjs" type="module"></script>
 </body>
 
 </html>

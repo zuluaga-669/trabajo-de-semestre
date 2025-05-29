@@ -1,4 +1,5 @@
-import Casa from '../models/modelPropiedades.js';
+import Casa from '../models/modelPropiedades
+.js';
 
 export const getAllCasas = async (req, res) => {
     try {

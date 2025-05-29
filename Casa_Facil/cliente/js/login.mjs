@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lista de usuarios válidos
     const usuariosValidos = [
-        { username: 'juan@example.com', password: '123456', nombre: 'Juan Pérez', telefono: '+56 912345678', correo: 'juan@example.com' },
-        { username: 'maria@example.com', password: 'abc123', nombre: 'María González', telefono: '+56 987654321', correo: 'maria@example.com' },
-        { username: 'admin@casafacil.com', password: 'admin123', nombre: 'Administrador', telefono: '+56 955555555', correo: 'admin@casafacil.com' }
+        { id: 1, username: 'juan@example.com', password: '123456', nombre: 'Juan Pérez', telefono: '+56 912345678', correo: 'juan@example.com' },
+        { id: 2, username: 'maria@example.com', password: 'abc123', nombre: 'María González', telefono: '+56 987654321', correo: 'maria@example.com' },
+        { id: 3, username: 'admin@casafacil.com', password: 'admin123', nombre: 'Administrador', telefono: '+56 955555555', correo: 'admin@casafacil.com' }
     ];
 
     loginForm.addEventListener('submit', async (e) => {
@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (usuarioEncontrado) {
             // Guardar los datos del usuario en localStorage
             localStorage.setItem('usuarioActual', JSON.stringify({
+                id: usuarioEncontrado.id,
                 nombre: usuarioEncontrado.nombre,
                 telefono: usuarioEncontrado.telefono,
                 correo: usuarioEncontrado.correo
@@ -42,6 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('password').value = '';
         }
     });
+
+    // Verificar si ya hay una sesión activa al cargar la página
+    const usuarioActual = localStorage.getItem('usuarioActual');
+    if (usuarioActual) {
+        // Si ya hay una sesión activa, redirigir a la vista de usuario
+        window.location.href = 'vistaUsuario.html';
+    }
 
     // Manejar el botón de salir
     const btnSalir = document.querySelector('.btn-salir');
