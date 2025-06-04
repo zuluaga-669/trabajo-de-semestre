@@ -5,13 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const step2 = document.getElementById('step2');
     const sendCodeButton = document.getElementById('sendCode');
 
-    // Añadir función para validar el correo electrónico
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
 
-    // Manejar el envío del código
     sendCodeButton.addEventListener('click', async () => {
         const email = document.getElementById('email').value;
 
@@ -26,11 +24,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Aquí iría la llamada al backend para enviar el código
+            // Aquí se hará el llamado al backend para enviar el código
+            /*
+            const response = await fetch('https://tubackend.com/api/enviar-codigo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+            if (!response.ok) throw new Error('Error al enviar el código');
+            */
+
             messageElement.textContent = 'Código enviado a tu correo electrónico';
             messageElement.classList.add('success');
 
-            // Mostrar el paso 2
             step1.style.display = 'none';
             step2.style.display = 'flex';
         } catch (error) {
@@ -39,10 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Manejar la verificación del código
     recoveryForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const code = document.getElementById('code').value;
+        const email = document.getElementById('email').value;
 
         if (!code) {
             messageElement.textContent = 'Por favor, ingresa el código de verificación';
@@ -50,11 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Aquí iría la llamada al backend para verificar el código
+            // Aquí se hará el llamado al backend para verificar el código
+            /*
+            const response = await fetch('https://tubackend.com/api/verificar-codigo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, code }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) throw new Error('Código inválido');
+            */
+
             messageElement.textContent = 'Código verificado correctamente';
             messageElement.classList.add('success');
 
-            // Redirigir al login después de 2 segundos
             setTimeout(() => {
                 window.location.href = 'login.html';
             }, 2000);
@@ -63,4 +81,4 @@ document.addEventListener('DOMContentLoaded', () => {
             messageElement.classList.remove('success');
         }
     });
-}); 
+});
