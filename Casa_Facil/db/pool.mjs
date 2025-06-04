@@ -3,10 +3,10 @@ const { Pool } = pkg;
 
 const pool = new Pool({
     user: 'postgres',
-    host: 'switchyard.proxy.rlwy.net',
+    host: 'interchange.proxy.rlwy.net',
     database: 'railway',
-    password: 'ZuviHmFKNRxVbdlRBWHYpJdSMLtAjvbq', 
-    port: 20961,
+    password: 'lMEfpuUevRmqDgZdQzWRVUBYzjvqNRaR', 
+    port: 18498,
     ssl: {
         rejectUnauthorized: false,
     }

@@ -1,162 +1,55 @@
-import pkg from 'pg';
-const { Pool } = pkg;
+import pool from '../../db/pool.mjs';
 
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'casa_facil',
-    password: '1002542140', // Deberás cambiar esto por tu contraseña
-    port: 5432,
-});
+class Usuario {
+    // static async getByEmail(email) {
+    //     const query = 'SELECT * FROM usuarios WHERE email = $1';
+    //     const { rows } = await pool.query(query, [email]);
+    //     return rows[0];
+    // }
 
-// Función para obtener todos los usuarios
-export async function getAllUsers() {
-    try {
-        const result = await pool.query('SELECT * FROM usuarios');
-        return result.rows;
-    } catch (error) {
-        console.error('Error al obtener usuarios:', error);
-        throw error;
+    // static async create(userData) {
+    //     const { nombre, email, password, telefono } = userData;
+    //     const query = `
+    //         INSERT INTO usuarios (nombre, email, password, telefono)
+    //         VALUES ($1, $2, $3, $4)
+    //         RETURNING id, nombre, email, telefono
+    //     `;
+    //     const values = [nombre, email, password, telefono];
+    //     const { rows } = await pool.query(query, values);
+    //     return rows[0];
+    // }
+
+    // static async update(id, userData) {
+    //     const { nombre, telefono } = userData;
+    //     const query = `
+    //         UPDATE usuarios
+    //         SET nombre = $1, telefono = $2, actualizado_en = CURRENT_TIMESTAMP
+    //         WHERE id = $3
+    //         RETURNING id, nombre, email, telefono
+    //     `;
+    //     const values = [nombre, telefono, id];
+    //     const { rows } = await pool.query(query, values);
+    //     return rows[0];
+    // }
+
+    // static async delete(id) {
+    //     const query = 'DELETE FROM usuarios WHERE id = $1 RETURNING *';
+    //     const { rows } = await pool.query(query, [id]);
+    //     return rows[0];
+    // }
+
+    static async buscarUsarios(correo, pass) {
+        const query = 'SELECT * FROM usuarios WHERE correo = $1 AND pass = $2';
+        const { rows } = await pool.query(query, [correo, pass]);
+        return rows[0]; 
+    }
+
+
+    static async cargarInfo(usuid){
+        const query = 'SELECT nombre,celular,correo FROM usuarios where usuid = $1';
+        const {rows} = await pool.query(query, [usuid]);
+        return rows[0]; 
     }
 }
 
-// Función para obtener un usuario por ID
-export async function getUserById(id) {
-    try {
-        const result = await pool.query('SELECT * FROM usuarios WHERE id = $1', [id]);
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error al obtener usuario por ID:', error);
-        throw error;
-    }
-}
-
-// Función para crear un nuevo usuario
-export async function createUser(userData) {
-    const {
-        nombre,
-        apellidos,
-        tipo_documento,
-        numero_documento,
-        correo,
-        celular,
-        direccion,
-        departamento,
-        municipio,
-        categoria,
-        tipo_persona,
-        password
-    } = userData;
-
-    try {
-        const result = await pool.query(
-            `INSERT INTO usuarios (
-                nombre,
-                apellidos,
-                tipo_documento,
-                numero_documento,
-                correo,
-                celular,
-                direccion,
-                departamento,
-                municipio,
-                fecha_registro,
-                estado,
-                categoria,
-                tipo_persona,
-                password
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, CURRENT_TIMESTAMP, 'ACTIVO', $10, $11, $12) 
-            RETURNING *`,
-            [
-                nombre,
-                apellidos,
-                tipo_documento.toUpperCase(),
-                numero_documento,
-                correo,
-                celular,
-                direccion,
-                departamento,
-                municipio,
-                categoria.toUpperCase(),
-                tipo_persona.toUpperCase(),
-                password
-            ]
-        );
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error al crear usuario:', error);
-        throw error;
-    }
-}
-
-// Función para actualizar un usuario
-export async function updateUser(id, userData) {
-    const updateFields = [];
-    const values = [];
-    let paramCount = 1;
-
-    // Construir la consulta dinámicamente basada en los campos proporcionados
-    Object.keys(userData).forEach(key => {
-        if (userData[key] !== undefined) {
-            updateFields.push(`${key} = $${paramCount}`);
-            values.push(userData[key]);
-            paramCount++;
-        }
-    });
-
-    values.push(id); // Añadir el ID al final del array de valores
-
-    try {
-        const result = await pool.query(
-            `UPDATE usuarios 
-             SET ${updateFields.join(', ')} 
-             WHERE id = $${paramCount} 
-             RETURNING *`,
-            values
-        );
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error al actualizar usuario:', error);
-        throw error;
-    }
-}
-
-// Función para eliminar un usuario
-export async function deleteUser(id) {
-    try {
-        const result = await pool.query('DELETE FROM usuarios WHERE id = $1 RETURNING id', [id]);
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error al eliminar usuario:', error);
-        throw error;
-    }
-}
-
-// Script para crear la tabla si no existe
-export async function initializeDatabase() {
-    try {
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS usuarios (
-                id SERIAL PRIMARY KEY,
-                nombre VARCHAR(100) NOT NULL,
-                apellidos VARCHAR(100) NOT NULL,
-                tipo_documento VARCHAR(20) NOT NULL,
-                numero_documento VARCHAR(20) UNIQUE NOT NULL,
-                correo VARCHAR(100) UNIQUE NOT NULL,
-                celular VARCHAR(15) NOT NULL,
-                direccion TEXT NOT NULL,
-                departamento VARCHAR(50) NOT NULL,
-                municipio VARCHAR(50) NOT NULL,
-                fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                estado VARCHAR(20) DEFAULT 'ACTIVO',
-                categoria VARCHAR(20) NOT NULL,
-                tipo_persona VARCHAR(20) NOT NULL,
-                password TEXT NOT NULL
-            );
-        `);
-        console.log('Base de datos inicializada correctamente');
-    } catch (error) {
-        console.error('Error al inicializar la base de datos:', error);
-        throw error;
-    }
-}
+export default Usuario; 

@@ -1,16 +1,5 @@
-// Función para cerrar sesión
-function cerrarSesion() {
-    // Limpiar datos del usuario
-    localStorage.removeItem('usuarioActual');
-    // Redirigir al login
-    window.location.href = 'login.html';
-}
-
 // Función para cargar las propiedades del usuario
 async function cargarPropiedades() {
-    const usuario = JSON.parse(localStorage.getItem('usuarioActual'));
-    if (!usuario) return;
-
     try {
         // Por ahora, usaremos datos de ejemplo hasta que el backend esté listo
         const propiedades = [
@@ -90,40 +79,59 @@ async function cargarPropiedades() {
         }
     }
 }
+function inicio(){
 
-// Función para verificar si el usuario está autenticado
-function verificarAutenticacion() {
-    const usuarioActual = localStorage.getItem('usuarioActual');
-    if (!usuarioActual) {
-        window.location.href = 'login.html';
-        return false;
-    }
-    return JSON.parse(usuarioActual);
+    cargarPropiedades();
+
+    cargarinfoUsuario();
 }
 
-// Inicializar la página
-window.onload = function () {
-    // Verificar autenticación
-    const usuario = verificarAutenticacion();
-    if (!usuario) return;
 
-    // Cargar datos del usuario desde localStorage
-    document.getElementById('nombre-usuario').textContent = usuario.nombre;
-    document.getElementById('telefono-usuario').textContent = usuario.telefono;
-    document.getElementById('correo-usuario').textContent = usuario.correo;
-
-    // Cargar las propiedades
-    cargarPropiedades();
-};
-
-// Exponer funciones necesarias globalmente
-window.cerrarSesion = cerrarSesion;
 window.editarPropiedad = function (id) {
     window.location.href = `registroCasas.html?id=${id}`;
 };
 window.eliminarPropiedad = function (id) {
     if (confirm('¿Estás seguro de que deseas eliminar esta propiedad?')) {
-        // Por ahora solo recargamos las propiedades
         cargarPropiedades();
     }
 };
+
+async function  cargarinfoUsuario() {
+    const params = new URLSearchParams(window.location.search);
+
+    const usuid = params.get('usuid');
+
+    const nombre = document.getElementById('nombre-usuario');
+    const celular = document.getElementById('telefono-usuario');
+    const correo = document.getElementById('correo-usuario');
+
+    try {
+        const response = await fetch('/vistaUsuario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ usuid })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            console.log(error)
+            return;
+        }
+
+            const  data = await response.json();
+            console.log(data)
+
+            nombre.innerHTML=data.nombre;
+            celular.innerHTML=data.celular;
+            correo.innerHTML=data.correo;
+
+
+    } catch (error) {
+        console.error('Error', error);
+    }
+
+}
+
+inicio();

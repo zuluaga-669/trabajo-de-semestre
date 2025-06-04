@@ -1,18 +1,15 @@
 import express from 'express';
+import usuRoutes from './app/routes/routesusuarios.mjs';
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 const app = express();
 
-// Middlewares
 app.use(express.json());
-app.use(express.static('cliente'));  
+app.use(express.static('cliente')); 
 
-app.get('/', (req, res) => {
-    debugger;
-    res.sendFile('html/home.html', { root: './cliente' });
-    
-});
+// Rutas
+app.use('/', usuRoutes);  
 
 app.listen(port, () => {
-    console.log(`Servidor escuchando en el puerto ${port}`);
+    console.log(`Servidor escuchando en el puerto ${port}`);
 });

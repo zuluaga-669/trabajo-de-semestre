@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de Usuario - Casa Fácil</title>
-    <link rel="stylesheet" href="../css/vistaUsuario.css">
+    <link rel="stylesheet" href="css/vistaUsuario.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
     <div class="sidebar">
-        <button class="sidebar-button home-button" onclick="window.location.href='home.html'">
+        <button class="sidebar-button home-button" onclick="window.location.href='login.html'">
             <i class="fas fa-home"></i> Inicio
         </button>
         <button class="sidebar-button upload-button" onclick="window.location.href='registroCasas.html'">
@@ -40,21 +40,21 @@
             <div class="profile-info">
                 <div class="info-group">
                     <div class="info-label">Nombre</div>
-                    <div class="info-value" id="nombre-usuario">Cargando...</div>
+                    <div class="info-value" id="nombre-usuario"></div>
                 </div>
                 <div class="info-group">
                     <div class="info-label">Teléfono</div>
-                    <div class="info-value" id="telefono-usuario">Cargando...</div>
+                    <div class="info-value" id="telefono-usuario"></div>
                 </div>
                 <div class="info-group">
                     <div class="info-label">Correo Electrónico</div>
-                    <div class="info-value" id="correo-usuario">Cargando...</div>
+                    <div class="info-value" id="correo-usuario">.</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="../js/vistaUsuarios.mjs" type="module"></script>
+    <script src="js/vistaUsuarios.mjs" type="module"></script>
 </body>
 
 </html>
