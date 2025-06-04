@@ -234,8 +234,8 @@ body {
     line-height: 1;
 }
 
-.button.button-primary {
-    background-color: var(--primary-color);
+.button {
+background-color: #00834b;
     border-color: var(--primary-color);
 }
 

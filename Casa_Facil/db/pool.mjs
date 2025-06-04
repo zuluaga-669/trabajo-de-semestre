@@ -3,10 +3,13 @@ const { Pool } = pkg;
 
 const pool = new Pool({
     user: 'postgres',
-    host: 'localhost',
-    database: 'casa_facil',
-    password: 'tu_contraseña', // Cambia esto por tu contraseña de PostgreSQL
-    port: 5432,
+    host: 'switchyard.proxy.rlwy.net',
+    database: 'railway',
+    password: 'ZuviHmFKNRxVbdlRBWHYpJdSMLtAjvbq', 
+    port: 20961,
+    ssl: {
+        rejectUnauthorized: false,
+    }
 });
 
 export default pool;
