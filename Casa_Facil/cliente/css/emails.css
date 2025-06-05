@@ -1,0 +1,47 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.correo-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background-color: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  color: #333;
+}
+
+.correo-header {
+  background-color: #00b15a;
+  padding: 1rem;
+  border-radius: 8px 8px 0 0;
+  text-align: center;
+  color: white;
+}
+
+.correo-contenido {
+  padding: 1rem 0;
+}
+
+.codigo-verificacion {
+  background-color: #f1f1f1;
+  border: 2px dashed #00b15a;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 1.5rem 0;
+  border-radius: 6px;
+  color: #00b15a;
+}
+
+.correo-footer {
+  font-size: 0.9rem;
+  color: #777;
+  text-align: center;
+  margin-top: 2rem;
+}
