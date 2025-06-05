@@ -7,17 +7,52 @@ class Usuario {
     //     return rows[0];
     // }
 
-    // static async create(userData) {
-    //     const { nombre, email, password, telefono } = userData;
-    //     const query = `
-    //         INSERT INTO usuarios (nombre, email, password, telefono)
-    //         VALUES ($1, $2, $3, $4)
-    //         RETURNING id, nombre, email, telefono
-    //     `;
-    //     const values = [nombre, email, password, telefono];
-    //     const { rows } = await pool.query(query, values);
-    //     return rows[0];
-    // }
+static async create(userData) {
+  const {
+    nombre,
+    apellidos,
+    tipo_documento,
+    numero_documento,
+    correo,       
+    celular,    
+    departamento,
+    municipio,
+    estado,
+    contrasena,
+    tipo_persona
+  } = userData;
+
+  const query = `
+    INSERT INTO usuarios (    
+    nombre,
+    apellidos,
+    tipo_documento,
+    numero_documento,
+    correo,       
+    celular,    
+    departamento,
+    municipio,
+    estado,
+    pass,
+    tipo_persona)
+    VALUES ($1, $2, $3, $4 ,$5, $6, $7, $8, $9, $10, $11)
+    RETURNING usuid, nombre, correo, celular
+  `;
+  const values = [nombre,
+    apellidos,
+    tipo_documento,
+    numero_documento,
+    correo,       
+    celular,    
+    departamento,
+    municipio,
+    estado,
+    contrasena,
+    tipo_persona];
+  const { rows } = await pool.query(query, values);
+  return rows[0];
+}
+
 
     // static async update(id, userData) {
     //     const { nombre, telefono } = userData;

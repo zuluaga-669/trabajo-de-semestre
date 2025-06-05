@@ -12,22 +12,21 @@ import Casa from '../models/modelPropiedades.mjs'
 //     }
 // }
 
-// // Crear un nuevo usuario
-// export async function guardarUsuario(req, res) {
-//     const { nombre, email } = req.body;
+// Crear un nuevo usuario
+export async function guardarUsuario(req, res) {
+  const datos = req.body;
 
-//     if (!nombre || !email) {
-//         return res.status(400).json({ mensaje: 'Nombre y email son obligatorios' });
-//     }
-
-//     try {
-//         const nuevoUsuario = await createUsuario(nombre, email);
-//         res.status(201).json(nuevoUsuario);
-//     } catch (err) {
-//         console.error('[ERROR] al crear usuario:', err.stack);
-//         res.status(500).send('Error al guardar el usuario');
-//     }
-// }
+  try {
+    const nuevoUsuario = await Usuario.create(datos);
+    res.status(201).json({
+      message: 'Usuario registrado exitosamente',
+      usuario: nuevoUsuario,
+    });
+  } catch (err) {
+    console.error('[ERROR] al crear usuario:', err.stack);
+    res.status(500).json({ message: 'Error al guardar el usuario' });
+  }
+}
 
 // // Actualizar un usuario existente
 // export async function actualizarUsuarioController(req, res) {
