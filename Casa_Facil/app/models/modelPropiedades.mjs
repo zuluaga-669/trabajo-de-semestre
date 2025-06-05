@@ -1,4 +1,4 @@
-import pool from '../config/database.js';
+import pool from '../../db/pool.mjs';
 
 class Casa {
     static async getAll() {
@@ -7,44 +7,22 @@ class Casa {
         return rows;
     }
 
-    static async getById(id) {
-        const query = 'SELECT * FROM casas WHERE id = $1';
+    static async getCasasByUserId(id) {
+        const query = 'SELECT * FROM casas WHERE usuid = $1';
         const { rows } = await pool.query(query, [id]);
-        return rows[0];
+        return rows;
     }
 
-    static async create(casaData) {
-        const {
-            titulo,
-            descripcion,
-            precio,
-            ubicacion,
-            tipo,
-            habitaciones,
-            banos,
-            usuario_id,
-            imagen_url
-        } = casaData;
-
+    static async create(usuid,tipo,banos,habitaciones,mascotas,ubicacion,descripcion,personasPermitidas,precio) {
         const query = `
             INSERT INTO casas (
-                titulo, descripcion, precio, ubicacion, tipo,
-                habitaciones, banos, usuario_id, imagen_url
+                usuid, tipoVivienda, nbanos, ncuartos, mascotas,
+                direccion, observaciones, cantidadPersonas, precio
             ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *
         `;
 
-        const values = [
-            titulo,
-            descripcion,
-            precio,
-            ubicacion,
-            tipo,
-            habitaciones,
-            banos,
-            usuario_id,
-            imagen_url
-        ];
+        const values = [usuid,tipo,banos,habitaciones,mascotas,ubicacion,descripcion,personasPermitidas,precio];
 
         const { rows } = await pool.query(query, values);
         return rows[0];

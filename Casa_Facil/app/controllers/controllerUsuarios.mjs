@@ -1,4 +1,5 @@
 import Usuario from '../models/modelUsuarios.mjs';
+import Casa from '../models/modelPropiedades.mjs'
 
 // Listar todos los usuarios
 // export async function listarUsuarios(req, res) {
@@ -84,18 +85,17 @@ export async function buscarUsuario(req, res) {
     }
 }
 
-export async function cargarinfoUsuario(req, res) {
-    const { usuid} = req.body;
-
+export const vistaUsuario = async (req, res) => {
     try {
-        const usuario = await Usuario.cargarInfo(usuid);
-        if (!usuario) {
-            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
-        }
-        res.status(200).json(usuario);
+        const { usuid } = req.body;
 
-    } catch (err) {
-        console.error('[ERROR] usuario no encontrado:', err.stack);
-        res.status(500).send('Error al buscar el usuario');
+        const usuario = await Usuario.cargarInfo(usuid); // datos del usuario
+        const propiedades = await Casa.getCasasByUserId(usuid); // propiedades del usuario
+
+        res.status(200).json({ usuario, propiedades });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ mensaje: 'Error al obtener datos del usuario', error: error.message });
     }
-}
+};

@@ -1,4 +1,4 @@
-import Casa from '../models/modelPropiedades.js';
+import Casa from '../models/modelPropiedades.mjs';
 
 export const getAllCasas = async (req, res) => {
     try {
@@ -9,31 +9,19 @@ export const getAllCasas = async (req, res) => {
     }
 };
 
-export const getCasaById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const casa = await Casa.getById(id);
-
-        if (!casa) {
-            return res.status(404).json({ message: 'Casa no encontrada' });
-        }
-
-        res.json(casa);
-    } catch (error) {
-        res.status(500).json({ message: 'Error al obtener la casa', error: error.message });
-    }
-};
 
 export const createCasa = async (req, res) => {
     try {
-        const casaData = {
-            ...req.body,
-            usuario_id: req.user.id // Asumiendo que tienes autenticación y el usuario está en req.user
-        };
+        const {usuid,tipo,banos,habitaciones,mascotas,ubicacion, descripcion,personasPermitidas,precio
+        } = req.body;
 
-        const nuevaCasa = await Casa.create(casaData);
+        const nuevaCasa = await Casa.create(
+                usuid,tipo,banos,habitaciones,mascotas,ubicacion,descripcion,personasPermitidas,precio
+        );
+
         res.status(201).json(nuevaCasa);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Error al crear la casa', error: error.message });
     }
 };

@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-buscarUsuario,cargarinfoUsuario
+buscarUsuario,vistaUsuario
 } from '../controllers/controllerUsuarios.mjs';
 
 const router = express.Router();
@@ -19,6 +19,6 @@ const router = express.Router();
 
 router.post('/login', buscarUsuario)
 
-router.post('/vistaUsuario', cargarinfoUsuario)
+router.post('/vistaUsuario', vistaUsuario)
 
 export default router; 
