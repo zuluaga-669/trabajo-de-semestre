@@ -20,7 +20,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         }
 
         const data = await response.json();
-        if(data.correo == 'correo@gmail.com'){
+        if(data.correo == 'correo2@gmail.com'){
         window.location.href = '/dashbord.html';
         }else{
             window.location.href = `/vistaUsuario.html?usuid=${data.usuid}`;

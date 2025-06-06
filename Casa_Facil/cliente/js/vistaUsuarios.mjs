@@ -21,7 +21,7 @@ async function cargarinfoUsuario() {
         }
 
         const data = await response.json();
-
+console.log(data)
         // Mostrar datos del usuario
         nombre.innerHTML = data.usuario.nombre;
         celular.innerHTML = data.usuario.celular;
@@ -32,7 +32,7 @@ async function cargarinfoUsuario() {
         data.propiedades.forEach(propiedad => {
             const propertyCard = `
                 <div class="property-card">
-                    <img src="${propiedad.imagen_url || '../img/default-house.jpg'}" 
+                    <img src="${propiedad.imagen_url || 'https://images.homify.com/v1443654352/p/photo/image/960352/Imativa_Casa_Carrasco_0013.jpg'}" 
                          alt="${propiedad.titulo}" 
                          class="property-image">
                     <div class="property-info">
