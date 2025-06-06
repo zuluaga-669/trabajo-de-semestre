@@ -1,122 +1,82 @@
 import pool from '../../db/pool.mjs';
 
 class Casa {
-    // Obtener todas las casas
     static async getAll() {
-        const query = 'SELECT * FROM registro_casas ORDER BY casa_id DESC';
+        const query = 'SELECT * FROM casas ORDER BY id DESC';
         const { rows } = await pool.query(query);
         return rows;
     }
 
-    // Obtener casas por usuario_id
-    static async getByUserId(usuario_id) {
-        const query = 'SELECT * FROM registro_casas WHERE usuario_id = $1 ORDER BY casa_id DESC';
-        const { rows } = await pool.query(query, [usuario_id]);
+    static async getCasasByUserId(id) {
+        const query = 'SELECT * FROM casas WHERE usuid = $1';
+        const { rows } = await pool.query(query, [id]);
         return rows;
     }
 
-    // Crear nueva casa
-    static async create(
-        usuario_id,
-        plan_id,
-        tipo_vivienda,
-        numero_banos,
-        numero_cuartos,
-        mascotas,
-        ubicacion,
-        observaciones,
-        cantidad_personas,
-        imagenes
-    ) {
+    static async create(usuid,tipo,banos,habitaciones,mascotas,ubicacion,descripcion,personasPermitidas,precio) {
         const query = `
-            INSERT INTO registro_casas (
-                usuario_id,
-                plan_id,
-                tipo_vivienda,
-                numero_banos,
-                numero_cuartos,
-                mascotas,
-                ubicacion,
-                observaciones,
-                cantidad_personas,
-                imagenes
-            )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            INSERT INTO casas (
+                usuid, tipoVivienda, nbanos, ncuartos, mascotas,
+                direccion, observaciones, cantidadPersonas, precio
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *
         `;
 
-        const values = [
-            usuario_id,
-            plan_id,
-            tipo_vivienda,
-            numero_banos,
-            numero_cuartos,
-            mascotas,
-            ubicacion,
-            observaciones,
-            cantidad_personas,
-            imagenes
-        ];
+        const values = [usuid,tipo,banos,habitaciones,mascotas,ubicacion,descripcion,personasPermitidas,precio];
 
         const { rows } = await pool.query(query, values);
         return rows[0];
     }
 
-    // Actualizar una casa
-    static async update(casa_id, casaData) {
+    static async update(id, casaData) {
         const {
-            usuario_id,
-            plan_id,
-            tipo_vivienda,
-            numero_banos,
-            numero_cuartos,
-            mascotas,
+            titulo,
+            descripcion,
+            precio,
             ubicacion,
-            observaciones,
-            cantidad_personas,
-            imagenes
+            tipo,
+            habitaciones,
+            banos,
+            imagen_url
         } = casaData;
 
         const query = `
-            UPDATE registro_casas
-            SET usuario_id = $1,
-                plan_id = $2,
-                tipo_vivienda = $3,
-                numero_banos = $4,
-                numero_cuartos = $5,
-                mascotas = $6,
-                ubicacion = $7,
-                observaciones = $8,
-                cantidad_personas = $9,
-                imagenes = $10
-            WHERE casa_id = $11
+            UPDATE casas
+            SET titulo = $1, descripcion = $2, precio = $3,
+                ubicacion = $4, tipo = $5, habitaciones = $6,
+                banos = $7, imagen_url = $8,
+                actualizado_en = CURRENT_TIMESTAMP
+            WHERE id = $9
             RETURNING *
         `;
 
         const values = [
-            usuario_id,
-            plan_id,
-            tipo_vivienda,
-            numero_banos,
-            numero_cuartos,
-            mascotas,
+            titulo,
+            descripcion,
+            precio,
             ubicacion,
-            observaciones,
-            cantidad_personas,
-            imagenes,
-            casa_id
+            tipo,
+            habitaciones,
+            banos,
+            imagen_url,
+            id
         ];
 
         const { rows } = await pool.query(query, values);
         return rows[0];
     }
 
-    // Eliminar una casa
-    static async delete(casa_id) {
-        const query = 'DELETE FROM registro_casas WHERE casa_id = $1 RETURNING *';
-        const { rows } = await pool.query(query, [casa_id]);
+    static async delete(id) {
+        const query = 'DELETE FROM casas WHERE id = $1 RETURNING *';
+        const { rows } = await pool.query(query, [id]);
         return rows[0];
+    }
+
+    static async getByUserId(usuario_id) {
+        const query = 'SELECT * FROM casas WHERE usuario_id = $1 ORDER BY id DESC';
+        const { rows } = await pool.query(query, [usuario_id]);
+        return rows;
     }
 }
 
-export default Casa;
+export default Casa; 

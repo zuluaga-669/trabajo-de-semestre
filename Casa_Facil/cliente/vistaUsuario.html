@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario - Casa Fácil</title>
+    <link rel="stylesheet" href="css/vistaUsuario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <button class="sidebar-button home-button" onclick="window.location.href='login.html'">
+            <i class="fas fa-home"></i> Inicio
+        </button>
+        <button class="sidebar-button upload-button" id="uploadBtn">
+            <i class="fas fa-plus"></i> Subir Propiedad
+        </button>
+        <button class="sidebar-button logout-button" onclick="cerrarSesion()">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </button>
+    </div>
+
+    <div class="main-content">
+        <div class="properties-container">
+            <h2 class="properties-title">Mis Propiedades Publicadas</h2>
+            <div class="properties-grid" id="propiedades-container">
+                <!-- Las propiedades se cargarán aquí -->
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h1>Mi Perfil</h1>
+            </div>
+            <div class="profile-info">
+                <div class="info-group">
+                    <div class="info-label">Nombre</div>
+                    <div class="info-value" id="nombre-usuario"></div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Teléfono</div>
+                    <div class="info-value" id="telefono-usuario"></div>
+                </div>
+                <div class="info-group">
+                    <div class="info-label">Correo Electrónico</div>
+                    <div class="info-value" id="correo-usuario">.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/vistaUsuarios.mjs" type="module"></script>
+</body>
+
+</html>

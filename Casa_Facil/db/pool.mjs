@@ -3,10 +3,15 @@ const { Pool } = pkg;
 
 const pool = new Pool({
     user: 'postgres',
-    host: 'localhost',
-    database: 'Registro_casas', // <-- Aquí el nombre de la base local
-    password: '1002542140',
-    port: 5432
+    host: 'interchange.proxy.rlwy.net',
+    database: 'railway',
+    password: 'lMEfpuUevRmqDgZdQzWRVUBYzjvqNRaR', 
+    port: 18498,
+    ssl: {
+        rejectUnauthorized: false,
+    }
 });
 
 export default pool;
+
+
