@@ -87,11 +87,6 @@ body {
     border-color: #444;
 }
 
-/* Estilos para las secciones de contenido */
-.content-section {
-    display: none;
-}
-
 .content-section.active {
     display: block;
 }

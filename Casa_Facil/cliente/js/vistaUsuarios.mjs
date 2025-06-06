@@ -1,3 +1,5 @@
+
+
 async function cargarinfoUsuario() {
     const params = new URLSearchParams(window.location.search);
     const usuid = params.get('usuid');
@@ -21,50 +23,47 @@ async function cargarinfoUsuario() {
         }
 
         const data = await response.json();
-console.log(data)
-        // Mostrar datos del usuario
+        console.log(data);
+
         nombre.innerHTML = data.usuario.nombre;
         celular.innerHTML = data.usuario.celular;
         correo.innerHTML = data.usuario.correo;
 
-        // Mostrar propiedades del usuario
-        container.innerHTML = ''; // Limpiar antes de agregar
+        container.innerHTML = ''; // Limpiar contenedor
+
+        // Estructura base de grid
+        const grid = document.createElement('div');
+        grid.className = 'container';
+        grid.innerHTML = `
+            <div class="properties-grid">
+                <div class="row" id="propiedades-row"></div>
+            </div>
+        `;
+        container.appendChild(grid);
+
+        const row = grid.querySelector('#propiedades-row');
+
         data.propiedades.forEach(propiedad => {
-            const propertyCard = `
+            const imagenes = JSON.parse(propiedad.imagenes || "[]");
+            const imagenSrc = imagenes.length > 0 ? `/uploads/${imagenes[0]}` : '../img/default-house.jpg';
+
+            const card = document.createElement('div');
+            card.className = 'four columns';
+            card.innerHTML = `
                 <div class="property-card">
-                    <img src="${propiedad.imagen_url || 'https://images.homify.com/v1443654352/p/photo/image/960352/Imativa_Casa_Carrasco_0013.jpg'}" 
-                         alt="${propiedad.titulo}" 
-                         class="property-image">
+                    <img src="${imagenSrc}" alt="${propiedad.titulo}">
                     <div class="property-info">
-                        <div>
-                            <h3 class="property-title">${propiedad.titulo}</h3>
-                            <span class="property-type">${propiedad.tipovivienda}</span>
-                        </div>
-                        <div class="property-details">
-                            <span class="property-price">$${propiedad.precio}</span>
-                            <span class="property-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                ${propiedad.direccion}
-                            </span>
-                            <div class="property-features">
-                                <span><i class="fas fa-bed"></i> ${propiedad.ncuartos} hab.</span>
-                                <span><i class="fas fa-bath"></i> ${propiedad.nbanos} baños</span>
-                                </br>
-                                <span></i> ${propiedad.observaciones}</span>
-                            </div>
-                        </div>
-                        <div class="property-actions">
-                            <button onclick="editarPropiedad(${propiedad.id})" class="edit-btn">
-                                <i class="fas fa-edit"></i> Editar
-                            </button>
-                            <button onclick="eliminarPropiedad(${propiedad.id})" class="delete-btn">
-                                <i class="fas fa-trash"></i> Eliminar
-                            </button>
-                        </div>
+                        <h5>${propiedad.titulo}</h5>
+                        <p><i class="fas fa-map-marker-alt"></i> <span class="property-location">${propiedad.direccion}</span></p>
+                        <p><i class="fas fa-bed"></i> <span class="property-rooms">${propiedad.ncuartos} habitaciones</span></p>
+                        <p><i class="fas fa-bath"></i> <span class="property-bathrooms">${propiedad.nbanos} baños</span></p>
+                        <p class="price">$<span class="property-price">${propiedad.precio}</span></p>
+                         <p class="price">$<span class="property-price">${propiedad.observaciones}</span></p>
+                        </br>
                     </div>
                 </div>
             `;
-            container.innerHTML += propertyCard;
+            row.appendChild(card);
         });
 
     } catch (error) {
@@ -72,4 +71,17 @@ console.log(data)
     }
 }
 
+const uploadBtn = document.getElementById('uploadBtn');
+const params = new URLSearchParams(window.location.search);
+const usuid = params.get('usuid');
+
+uploadBtn.addEventListener('click', () => {
+    if (usuid) {
+        window.location.href = `http://localhost:3000/registroCasas.html?usuid=${encodeURIComponent(usuid)}`;
+    } else {
+        alert('No se encontró el ID de usuario en la URL actual.');
+    }
+});
+
 cargarinfoUsuario();
+

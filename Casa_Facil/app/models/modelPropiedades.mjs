@@ -1,8 +1,8 @@
 import pool from '../../db/pool.mjs';
 
 class Casa {
-    static async getAll() {
-        const query = 'SELECT * FROM casas ORDER BY id DESC';
+    static async infoCasas() {
+        const query = 'SELECT * FROM casas ORDER BY 1 DESC';
         const { rows } = await pool.query(query);
         return rows;
     }
@@ -13,20 +13,28 @@ class Casa {
         return rows;
     }
 
-    static async create(usuid,tipo,banos,habitaciones,mascotas,ubicacion,descripcion,personasPermitidas,precio) {
+    static async create(
+        usuid, tipo, banos, habitaciones, mascotas,
+        ubicacion, descripcion, personasPermitidas, precio, titulo, imagenesJson
+    ) {
         const query = `
             INSERT INTO casas (
                 usuid, tipoVivienda, nbanos, ncuartos, mascotas,
-                direccion, observaciones, cantidadPersonas, precio
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                direccion, observaciones, cantidadPersonas, precio, titulo, imagenes
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
             RETURNING *
         `;
 
-        const values = [usuid,tipo,banos,habitaciones,mascotas,ubicacion,descripcion,personasPermitidas,precio];
+        const values = [
+            usuid, tipo, banos, habitaciones, mascotas,
+            ubicacion, descripcion, personasPermitidas, precio, titulo, imagenesJson
+        ];
 
         const { rows } = await pool.query(query, values);
         return rows[0];
     }
+
+
 
     static async update(id, casaData) {
         const {
@@ -77,6 +85,15 @@ class Casa {
         const { rows } = await pool.query(query, [usuario_id]);
         return rows;
     }
+
+    static async InfoTodasCasas() {
+        const query = 'SELECT * FROM casas  ORDER BY 1 DESC';
+        const { rows } = await pool.query(query);
+        return rows;
+    }
 }
 
-export default Casa; 
+export default Casa;
+
+
+

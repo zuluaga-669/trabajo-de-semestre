@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Registro de Usuario</title>
@@ -36,6 +37,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container mt-5">
     <div class="form-container mx-auto col-md-8">
@@ -67,10 +69,12 @@
           </div>
         </div>
         <div class="mb-3">
-          <input type="email" class="form-control" name="correo" placeholder="Correo electrónico" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required>
+          <input type="email" class="form-control" name="correo" placeholder="Correo electrónico"
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required>
         </div>
         <div class="mb-3">
-          <input type="text" class="form-control" id="celular" name="celular" placeholder="Celular" pattern="\d{10}" title="Debe ingresar solo números (10 dígitos)" required>
+          <input type="text" class="form-control" id="celular" name="celular" placeholder="Celular" pattern="\d{10}"
+            title="Debe ingresar solo números (10 dígitos)" required>
         </div>
         <div class="mb-3">
           <input type="text" class="form-control" name="direccion" placeholder="Dirección" required>
@@ -99,7 +103,7 @@
             </select>
           </div>
           <div class="col">
-            <input type="text" class="form-control" name="estado" placeholder="Estado" required>
+            <!-- <input type="text" class="form-control" name="estado" placeholder="Estado" required> -->
           </div>
         </div>
         <button type="submit" class="btn btn-primary w-100 guardar">Registrar</button>
@@ -109,4 +113,5 @@
   </div>
   <script src="js/registroUsuarios.mjs"></script>
 </body>
+
 </html>

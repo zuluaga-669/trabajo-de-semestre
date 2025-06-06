@@ -1,14 +1,15 @@
 import express from 'express';
-import { getAllCasas,createCasa, updateCasa,deleteCasa,getCasasByUserId} from '../controllers/controllerPropiedades.mjs';
+import { createCasa, getAllCasas } from '../controllers/controllerPropiedades.mjs';
+import { upload } from '../../cliente/js/configUploads.mjs';
 
 const router = express.Router();
 
-router.get('/', getAllCasas);
+router.post('/registroCasas', upload.array('imagenes', 8), createCasa);
 
-router.post('/registroCasas', createCasa);
+router.get('/index', getAllCasas)
 
-router.put('/:id', updateCasa);
+export default router;
 
-router.delete('/:id', deleteCasa);
 
-export default router; 
+
+
